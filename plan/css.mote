@@ -4,7 +4,6 @@ html {
 
 body {
   color: #333;
-  background-color: #faffe0;
   font-family: "Mate", "Georgia", serif;
   font-size: 16px;
   margin: 0;

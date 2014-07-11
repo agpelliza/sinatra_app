@@ -1,4 +1,4 @@
 {{ name }}
 {{ "=" * name.size }}
 
-This is a Cuba application.
+This is a Sinatra application.

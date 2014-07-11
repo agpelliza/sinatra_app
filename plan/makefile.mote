@@ -1,3 +1,5 @@
+.PHONY: test
+
 gems:
 	which gs  || gem install gs
 	which dep || gem install dep
@@ -8,3 +10,23 @@ gems:
 
 install:
 	dep install
+
+setup:
+  echo APP_KEY=$$(basename $$(pwd)) >> .env
+  echo APP_SECRET=$$(make secret | grep -v 'ruby') >> .env
+  echo RACK_ENV=development >> .env
+
+secret:
+  ruby -r securerandom -e 'puts SecureRandom.hex(32)'
+
+console:
+  env $$(cat .env) irb -r ./app
+
+server:
+  env $$(cat .env) shotgun -s puma -o 0.0.0.0 -p 3000
+
+pull:
+  git pull origin master
+
+push:
+  git push origin master

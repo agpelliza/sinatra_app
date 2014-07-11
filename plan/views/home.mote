@@ -1,0 +1,4 @@
+p
+  Congratulations! You have just created a Sinatra app.<br> The text you
+  are reading is located at <code>./views/home.slim</code>.<br> Make
+  sure you change it to something more interesting.

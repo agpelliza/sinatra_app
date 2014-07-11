@@ -15,10 +15,8 @@ module Plan
     # it at will.
     def gems
       [
-        "cuba",            # Required.
-        "mote",            # Required, but you can change it later.
-        "cuba-contrib",    # Optional, provides some nice helpers.
-        "rack-protection", # Optional, but recommended.
+        "sinatra",         # Required.
+        "slim",            # Required, but you can change it later.
         "shield"           # Optional, helpers for authentication.
       ]
     end
@@ -28,9 +26,15 @@ module Plan
     end
   end
 
+  class Gitignore < App
+    def destination
+      "#{name}/.gitignore"
+    end
+  end
+
   class Readme < App
     def destination
-      "#{name}/README"
+      "#{name}/README.md"
     end
   end
 
@@ -52,15 +56,41 @@ module Plan
     end
   end
 
-  class Home < App
-    def destination
-      "#{name}/views/home.mote"
+  module Models
+    class Init < App
+      def destination
+        "foo/models/init.rb"
+      end
     end
   end
 
-  class Layout < App
-    def destination
-      "#{name}/views/layout.mote"
+  module Helpers
+    class Init < App
+      def destination
+        "#{name}/helpers/init.rb"
+      end
+    end
+  end
+
+  module Routes
+    class Init < App
+      def destination
+        "#{name}/routes/init.rb"
+      end
+    end
+  end
+
+  module Views
+    class Layout < App
+      def destination
+        "#{name}/views/layout.slim"
+      end
+    end
+
+    class Home < App
+      def destination
+        "#{name}/views/home.slim"
+      end
     end
   end
 end

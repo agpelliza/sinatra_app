@@ -1,52 +1,25 @@
+# encoding: utf-8
 % gems.each do |gem|
 require "{{ gem.sub("-", "/") }}"
 % end
 
-% if gems.include? "mote"
-  % if gems.include? "cuba-contrib"
-Cuba.plugin Cuba::Mote
-Cuba.plugin Cuba::TextHelpers
-  % else
-Cuba.plugin Mote::Helpers
-  % end
-% end
-% if gems.include? "shield"
-Cuba.plugin Shield::Helpers
-% end
+class {{name.capitalize}} < Sinatra::Application
 
-# Require all application files.
-Dir["./models/**/*.rb"].each  { |rb| require rb }
-Dir["./routes/**/*.rb"].each  { |rb| require rb }
+  APP_KEY = ENV.fetch("APP_KEY")
+  APP_SECRET = ENV.fetch("APP_SECRET")
 
-# Require all helper files.
-Dir["./helpers/**/*.rb"].each { |rb| require rb }
-Dir["./filters/**/*.rb"].each { |rb| require rb }
+  use Shield::Middleware, "/login"
+  use Rack::Session::Cookie, :key => APP_KEY, :secret => APP_SECRET
 
-Cuba.use Rack::MethodOverride
-Cuba.use Rack::Session::Cookie,
-  key: "{{name}}",
-  secret: "{{Digest::SHA1.hexdigest(name + Time.now.to_f.to_s)}}"
-
-% if gems.include? "rack-protection"
-Cuba.use Rack::Protection
-Cuba.use Rack::Protection::RemoteReferrer
-% end
-
-Cuba.use Rack::Static,
-  urls: %w[/js /css /img],
-  root: "./public"
-
-Cuba.define do
-% if gems.include? "shield"
-  persist_session!
-% end
-
-  on root do
-  % if gems.include? "cuba-contrib"
-    render("home")
-  % else
-    res.write mote("views/layout.mote",
-      content: mote("views/home.mote"))
-  % end
+  configure :production do
+    set :clean_trace, true
   end
+
+  configure :development do
+    set :bind, '0.0.0.0'
+  end 
 end
+
+require_relative 'models/init'
+require_relative 'helpers/init'
+require_relative 'routes/init'

@@ -1,0 +1,4 @@
+# encoding: utf-8
+require_relative 'style'
+require_relative 'login'
+require_relative 'main'
