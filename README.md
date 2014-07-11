@@ -21,4 +21,4 @@ USAGE
 
 SEE ALSO
 
-    http://lucasefe.github.com/gn/
+    http://github.com/lucasefe/gn
