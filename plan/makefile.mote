@@ -9,11 +9,12 @@ gems:
 	gs init
 
 install:
+  sudo apt-get install libsqlite3-dev
 	dep install
 
 setup:
-  echo APP_KEY=$$(basename $$(pwd)) >> .env
-  echo APP_SECRET=$$(make secret | grep -v 'ruby') >> .env
+  echo APP_KEY=$$(basename $$(pwd)) > .env
+  echo APP_SECRET=$$(make secret | grep -v 'ruby\|make') >> .env
   echo RACK_ENV=development >> .env
 
 secret:
@@ -24,6 +25,9 @@ console:
 
 server:
   env $$(cat .env) shotgun -s puma -o 0.0.0.0 -p 3000
+
+db:
+  env $$(cat .env) ruby -r ./app tasks/init_db.rb
 
 pull:
   git pull origin master

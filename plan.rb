@@ -15,9 +15,11 @@ module Plan
     # it at will.
     def gems
       [
-        "sinatra",         # Required.
-        "slim",            # Required, but you can change it later.
-        "shield"           # Optional, helpers for authentication.
+        "sinatra",
+        "slim",
+        "shield",
+        "sequel",
+        "sqlite3"
       ]
     end
 
@@ -60,6 +62,12 @@ module Plan
     class Init < App
       def destination
         "foo/models/init.rb"
+      end
+    end
+
+    class User < App
+      def destination
+        "foo/models/user.rb"
       end
     end
   end
@@ -108,6 +116,14 @@ module Plan
     class Home < App
       def destination
         "#{name}/views/home.slim"
+      end
+    end
+  end
+
+  module Tasks
+    class InitDB < App
+      def destination
+        "#{name}/tasks/init_db.rb"
       end
     end
   end

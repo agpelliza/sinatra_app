@@ -12,10 +12,12 @@ class {{name.capitalize}} < Sinatra::Application
   use Rack::Session::Cookie, :key => APP_KEY, :secret => APP_SECRET
 
   configure :production do
+    # DB = Sequel.connect(:adapter => 'mysql2', :user => 'my_user', :host => 'localhost', :database => 'my_db', :password=>'secret_pass', :encoding => 'utf8')
     set :clean_trace, true
   end
 
   configure :development do
+    DB = Sequel.sqlite('db/database.db')
     set :bind, '0.0.0.0'
   end 
 end
