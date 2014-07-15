@@ -78,6 +78,24 @@ module Plan
         "#{name}/routes/init.rb"
       end
     end
+
+    class Style < App
+      def destination
+        "#{name}/routes/style.rb"
+      end
+    end
+
+    class Login < App
+      def destination
+        "#{name}/routes/login.rb"
+      end
+    end
+
+    class Main < App
+      def destination
+        "#{name}/routes/main.rb"
+      end
+    end
   end
 
   module Views
