@@ -23,6 +23,17 @@ module Plan
       ]
     end
 
+    # List of dependencies for development. This list is a starting point, and you can
+    # add or more or remove either now or later. For each gem, we'll include the
+    # latest version in the final .gems.dev manifest. Feel free to change
+    # it at will.
+    def gems_dev
+      [
+        "shotgun", # Code reloader
+        "puma" # Faster server
+      ]
+    end
+
     def destination
       "#{name}/app.rb"
     end
@@ -61,13 +72,13 @@ module Plan
   module Models
     class Init < App
       def destination
-        "foo/models/init.rb"
+        "#{name}/models/init.rb"
       end
     end
 
     class User < App
       def destination
-        "foo/models/user.rb"
+        "#{name}/models/user.rb"
       end
     end
   end
@@ -134,29 +145,15 @@ instructions = <<-EOS
   the dependencies with the following commands:
 
     $ cd #{Plan::App.new.name}
-    $ make         # Creates a gemset and lists dependencies.
-    $ make install # Installs dependencies
+    $ make gems # Creates a gemset and lists dependencies.
+    $ make install # Installs dependencies.
+    $ make setup # Create basic configurations for your app.
 
   Once you are done with the setup, run the webserver:
 
-    $ rackup
+    $ make server
 
-  Now you can head to http://localhost:9292.
-
-  In development mode, it is good to have your application code
-  reloaded between requests. For that, we recommend the use of the
-  shotgun gem:
-
-    $ gem install shotgun
-    $ shotgun
-
-  Both shotgun and rackup use webrick by default. While it's a nice
-  server, you may get faster responses with something like puma:
-
-    $ gem install puma
-    $ shotgun -s puma
-
-  Now head to http://localhost:9393 to check your creation. Enjoy!
+  Now you can head to http://localhost:9393.
 EOS
 
 puts instructions
