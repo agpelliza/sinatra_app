@@ -1,4 +1,4 @@
 # encoding: utf-8
-class Pegaso < Sinatra::Application
+class {{name.capitalize}} < Sinatra::Application
   
 end
