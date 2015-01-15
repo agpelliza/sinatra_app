@@ -1,43 +1,43 @@
 .PHONY: test
 
 gems:
-  which gs  || gem install gs
-  which dep || gem install dep
+	which gs  || gem install gs
+	which dep || gem install dep
 % gems.each do |gem|
-  dep add {{gem}}
+	dep add {{gem}}
 % end
 % gems_dev.each do |gem|
-  dep add {{gem}} -f .gems.dev
+	dep add {{gem}} -f .gems.dev
 % end
-  gs init
+	gs init
 
 install:
-  dep install -f .gems
-  dep install -f .gems.dev
+	dep install -f .gems
+	dep install -f .gems.dev
 
 setup:
-  echo APP_KEY=$$(basename $$(pwd)) > .env
-  echo APP_SECRET=$$(make secret --no-print-directory | grep -v 'ruby') >> .env
-  echo DATABASE_URL=sqlite:$$(pwd)/data.db >> .env
+	echo APP_KEY=$$(basename $$(pwd)) > .env
+	echo APP_SECRET=$$(make secret --no-print-directory | grep -v 'ruby') >> .env
+	echo DATABASE_URL=sqlite:$$(pwd)/data.db >> .env
 
 console:
-  env $$(cat .env) irb -r ./app
+	env $$(cat .env) irb -r ./app
 
 secret:
-  ruby -r securerandom -e 'puts SecureRandom.hex(32)'
+	ruby -r securerandom -e 'puts SecureRandom.hex(32)'
 
 server:
-  env $$(cat .env) shotgun -o 0.0.0.0
+	env $$(cat .env) shotgun -o 0.0.0.0
 
 test:
-  env $$(cat .env) cutest test/**/*_test.rb
+	env $$(cat .env) cutest test/**/*_test.rb
 
 pull:
-  git pull origin master
+	git pull origin master
 
 push:
-  git push origin master
+	git push origin master
 
 db:
-  env $$(cat .env) ruby -r ./app tasks/init_db.rb
+	env $$(cat .env) ruby -r ./app tasks/init_db.rb
 
